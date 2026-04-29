@@ -1,0 +1,69 @@
+"use client";
+import { useState } from "react";
+import Link from "next/link";
+
+export default function Navbar() {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <nav className="w-full bg-black/80 backdrop-blur-md border-b border-gray-800 px-4 md:px-6 py-4">
+
+            <div className="flex items-center justify-between">
+
+                {/* Logo */}
+                <div className="text-xl md:text-2xl font-bold text-green-400">
+                    FitPro
+                </div>
+
+                {/* Desktop Links */}
+                <div className="hidden md:flex items-center gap-8 text-gray-300 font-medium">
+                    <Link href="/" className="hover:text-green-400 transition">
+                        Home
+                    </Link>
+                    <Link href="/exercises" className="hover:text-green-400 transition">
+                        Exercises
+                    </Link>
+                </div>
+
+                {/* Desktop Search */}
+                <div className="hidden md:flex items-center bg-gray-900 border border-gray-700 rounded-full px-4 py-2 w-64">
+                    <input
+                        type="text"
+                        placeholder="Search for exercise..."
+                        className="bg-transparent outline-none text-sm text-gray-200 w-full placeholder-gray-500"
+                    />
+                </div>
+
+                {/* Mobile Menu Button */}
+                <button
+                    onClick={() => setOpen(!open)}
+                    className="md:hidden text-gray-300"
+                >
+                    ☰
+                </button>
+            </div>
+
+            {/* Mobile Menu */}
+            {open && (
+                <div className="md:hidden mt-4 flex flex-col gap-4 text-gray-300">
+
+                    <Link href="/" className="hover:text-green-400">
+                        Home
+                    </Link>
+                    <Link href="/exercises" className="hover:text-green-400">
+                        Exercises
+                    </Link>
+
+                    <div className="flex items-center bg-gray-900 border border-gray-700 rounded-full px-4 py-2">
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            className="bg-transparent outline-none text-sm text-gray-200 w-full"
+                        />
+                    </div>
+
+                </div>
+            )}
+        </nav>
+    );
+}
