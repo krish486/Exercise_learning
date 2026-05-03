@@ -8,7 +8,7 @@ export default function Navbar() {
     return (
         <nav className="w-full bg-black/80 backdrop-blur-md border-b border-gray-800 px-4 md:px-6 py-4">
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-4">
 
                 {/* Logo */}
                 <div className="text-xl md:text-2xl font-bold text-green-400">
@@ -25,19 +25,12 @@ export default function Navbar() {
                     </Link>
                 </div>
 
-                {/* Desktop Search */}
-                <div className="hidden md:flex items-center bg-gray-900 border border-gray-700 rounded-full px-4 py-2 w-64">
-                    <input
-                        type="text"
-                        placeholder="Search for exercise..."
-                        className="bg-transparent outline-none text-sm text-gray-200 w-full placeholder-gray-500"
-                    />
-                </div>
+
 
                 {/* Mobile Menu Button */}
                 <button
-                    onClick={() => setOpen(!open)}
-                    className="md:hidden text-gray-300"
+                    onClick={() => setOpen(prev => !prev)}
+                    className="md:hidden text-gray-300 text-xl"
                 >
                     ☰
                 </button>
@@ -54,10 +47,12 @@ export default function Navbar() {
                         Exercises
                     </Link>
 
+                    {/* Mobile Search */}
                     <div className="flex items-center bg-gray-900 border border-gray-700 rounded-full px-4 py-2">
                         <input
+                            onChange={handleSearch}
                             type="text"
-                            placeholder="Search..."
+                            placeholder="Search body parts..."
                             className="bg-transparent outline-none text-sm text-gray-200 w-full"
                         />
                     </div>
