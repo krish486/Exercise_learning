@@ -3,6 +3,36 @@
 import { useState, useRef } from "react";
 
 export function searchHook() {
+
+
+    const muscleMap = {
+        abs: "waist",
+        abdominal: "waist",
+        core: "waist",
+
+        chest: "chest",
+        pectorals: "chest",
+
+        shoulders: "shoulders",
+        delts: "shoulders",
+
+        biceps: "upper arms",
+        triceps: "upper arms",
+        forearms: "lower arms",
+
+        quads: "upper legs",
+        hamstrings: "upper legs",
+        glutes: "upper legs",
+
+        calves: "lower legs",
+
+        traps: "back",
+        lats: "back",
+        back: "back"
+    };
+
+
+
     const timerRef = useRef(null);
 
     const [value, setValue] = useState("");
@@ -43,25 +73,51 @@ export function searchHook() {
     };
 
     const handleSearch = (e) => {
-        const val = e.target.value;
+        const val = e.target.value.toLowerCase().trim();
         setValue(val);
 
         clearTimeout(timerRef.current);
 
         timerRef.current = setTimeout(() => {
 
-            if (!val.trim()) {
+            if (!val) {
                 setExercise([]);
                 return;
             }
 
+            const mapped = muscleMap[val];
+
+            if (mapped) {
+                fetchData([mapped]);
+                return;
+            }
+
             const filteredParts = bodyParts.filter(part =>
-                part.toLowerCase().includes(val.toLowerCase())
+                part.toLowerCase().includes(val)
             );
 
-            fetchData(filteredParts);
+            if (filteredParts.length) {
+                fetchData(filteredParts);
+                return;
+            }
+
+            fetchMuscleData(val);
 
         }, 500);
+    };
+
+
+    const fetchMuscleData = async (muscle) => {
+        setIsFetch(false);
+
+        const res = await fetch(
+            `https://oss.exercisedb.dev/api/v1/exercises/muscles?targetMuscles=${muscle}&limit=10`
+        );
+
+        const { data } = await res.json();
+
+        setExercise(data);
+        setIsFetch(true);
     };
 
     return {

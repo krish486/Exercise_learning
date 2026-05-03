@@ -9,13 +9,14 @@ export default function SearchWrapper({ children }) {
     return (
         <>
             <Navbar handleSearch={search.handleSearch} />
-
-            {React.Children.map(children, (child) => {
-                if (React.isValidElement(child)) {
-                    return React.cloneElement(child, { search });
-                }
-                return child;
-            })}
+            <div className="mt-10">
+                {React.Children.map(children, (child) => {
+                    if (React.isValidElement(child)) {
+                        return React.cloneElement(child, { search });
+                    }
+                    return child;
+                })}
+            </div>
         </>
     );
 }
